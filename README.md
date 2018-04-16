@@ -84,9 +84,11 @@ source: https://docs.google.com/spreadsheets/d/12YcL4e60fvDVliTEzew-c2bbRahBUEaB
 
 ### Client性能测试
 
-对比okHttp和cornet在CPU、MEM和Network上的表现：
+对比cornet(和okhttp在CPU、MEM和Network上的表现：
 
 ![profile](./doc/profile_3g.png)
+
+(左 cronet，右 okhttp)
 
 （上下行1M，0 delay 0 loss）
 
