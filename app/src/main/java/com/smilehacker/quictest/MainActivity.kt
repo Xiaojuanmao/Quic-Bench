@@ -5,8 +5,10 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import com.smilehacker.quicdroid.QUICDroid
+import com.smilehacker.quicdroid.QUICInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
@@ -14,6 +16,7 @@ import org.chromium.net.CronetEngine
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,34 +63,34 @@ class MainActivity : AppCompatActivity() {
 
         QUICDroid.init(this@MainActivity)
 //
-//        mEngine = CronetEngine.Builder(applicationContext)
-//            .enableQuic(true)
-//            .build()
-//
-//        mOkhttpClentWithQUIC = OkHttpClient.Builder()
-//            .readTimeout(30, TimeUnit.SECONDS)
-//            .writeTimeout(30, TimeUnit.SECONDS)
-//            .connectTimeout(30, TimeUnit.SECONDS)
-//            .cache(null)
-//            .addInterceptor(QUICInterceptor())
-//            .build()
-//        mOkhttpClent = OkHttpClient.Builder()
-//            .readTimeout(30, TimeUnit.SECONDS)
-//            .writeTimeout(30, TimeUnit.SECONDS)
-//            .connectTimeout(30, TimeUnit.SECONDS)
-//            .cache(null)
-//            .build()
-//
-//        findViewById<Button>(R.id.btn_quic_test).setOnClickListener {
-//            doTest(TEST_TYPE_QUIC)
-//        }
-//
-//        findViewById<Button>(R.id.btn_http_test).setOnClickListener {
-//            doTest(TEST_TYPE_HTTP)
-//        }
-//        findViewById<Button>(R.id.btn_quic_ok_test).setOnClickListener {
-//            doTest(TEST_TYPE_QUIC_OVER_OKHTTP)
-//        }
+        mEngine = CronetEngine.Builder(applicationContext)
+            .enableQuic(true)
+            .build()
+
+        mOkhttpClentWithQUIC = OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .cache(null)
+            .addInterceptor(QUICInterceptor())
+            .build()
+        mOkhttpClent = OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .cache(null)
+            .build()
+
+        findViewById<Button>(R.id.btn_quic_test).setOnClickListener {
+            doTest(TEST_TYPE_QUIC)
+        }
+
+        findViewById<Button>(R.id.btn_http_test).setOnClickListener {
+            doTest(TEST_TYPE_HTTP)
+        }
+        findViewById<Button>(R.id.btn_quic_ok_test).setOnClickListener {
+            doTest(TEST_TYPE_QUIC_OVER_OKHTTP)
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
