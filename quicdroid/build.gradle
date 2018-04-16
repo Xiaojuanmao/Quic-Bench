@@ -1,23 +1,24 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
+
+
+
     defaultConfig {
-        applicationId "com.smilehacker.quictest"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
             abiFilters 'armeabi-v7a'
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -29,21 +30,24 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation 'com.squareup.okio:okio:1.14.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    api files('libs/cronet_api.jar')
+    api files('libs/cronet_impl_common_java.jar')
+    api files('libs/cronet_impl_native_java.jar')
 
-//    implementation 'com.packetzoom:pz-android-sdk:3.+'
-//    implementation 'com.packetzoom:pz-okhttp3-interceptor:3.2.+'
-    implementation project(":quicdroid")
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

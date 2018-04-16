@@ -1,4 +1,4 @@
-package com.smilehacker.quictest
+package com.smilehacker.quicdroid
 
 import android.util.Log
 import okhttp3.Interceptor
@@ -9,6 +9,9 @@ import okio.Okio
 import java.net.HttpURLConnection
 
 /**
+ * todo
+ * 1. Cookie support
+ *
  * Created by quan.zhou on 2018/4/13.
  */
 class QUICInterceptor: Interceptor {
@@ -16,6 +19,10 @@ class QUICInterceptor: Interceptor {
     private val TAG = QUICInterceptor::class.java.simpleName
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        if (!QUICDroid.enable) {
+            return chain.proceed(chain.request())
+        }
+
         val req = chain.request()
 
         val url = req.url().url()
@@ -25,7 +32,7 @@ class QUICInterceptor: Interceptor {
         Log.d(TAG, "protocol:${url.protocol}")
 
         // covert okhttp request to cornet request
-        val connection = QUICClient.engine.openConnection(url) as HttpURLConnection
+        val connection = QUICDroid.engine.openConnection(url) as HttpURLConnection
 
         // add headers
         req.headers().names().forEach {
@@ -69,8 +76,8 @@ class QUICInterceptor: Interceptor {
 //        val headerBuilder = Headers.Builder()
         respHeaders.entries.forEach {
             it.value.forEach {
-                value ->
-//                headerBuilder[it.key] = value
+                    value ->
+                //                headerBuilder[it.key] = value
                 respBuilder.addHeader(it.key, value)
 
             }

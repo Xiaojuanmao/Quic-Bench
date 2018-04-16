@@ -36,5 +36,13 @@ Android平台上，我们使用从`Chromium`中抽取的[cornet](https://chromiu
 
 ![bench_3g](./doc/bench_3g.png)
 
+#### 泰国
 
+参考[泰国网络调研](https://wiki.corp.kuaishou.com/pages/viewpage.action?pageId=27834569)数据进行测试 （调研数据中无丢包数据）
+
+1. WIFI 
+
+   1.1 BatWifi-Guest (Download 5.7Mbps; Upload 2.8Mbps; Ping 466ms)   
+
+   ​
 

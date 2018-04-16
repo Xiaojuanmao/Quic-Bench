@@ -1,11 +1,14 @@
 package com.smilehacker.quictest
 
+import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import com.smilehacker.quicdroid.QUICDroid
+import com.smilehacker.quicdroid.QUICInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
@@ -58,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        QUICDroid.init(this)
+
         mEngine = CronetEngine.Builder(applicationContext)
             .enableQuic(true)
             .build()
@@ -88,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private fun doTest(type: Int) {
         object : AsyncTask<Void, Void, Long>() {
             override fun doInBackground(vararg params: Void?): Long {
