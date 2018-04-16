@@ -44,7 +44,7 @@ source: https://docs.google.com/spreadsheets/d/12YcL4e60fvDVliTEzew-c2bbRahBUEaB
 
       ![DTAC](./doc/bench_4g_dtac.png)
 
-   3. True@地铁 (Download 6.3Mbps; Upload 9.7Mbps; Ping 123ms
+   3. True@地铁 (Download 6.3Mbps; Upload 9.7Mbps; Ping 123ms）
 
       ![True](./doc/bench_4g_true.png)
 
