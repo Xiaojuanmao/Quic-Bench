@@ -28,6 +28,5 @@ object QUICDroid {
     private fun defaultEngine(context: Context) =
         CronetEngine.Builder(context.applicationContext)
             .enableQuic(true)
-            .enableHttp2(true)
             .build()
 }

@@ -1,6 +1,5 @@
 package com.smilehacker.quicdroid
 
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
@@ -26,10 +25,6 @@ class QUICInterceptor: Interceptor {
         val req = chain.request()
 
         val url = req.url().url()
-//        if (Protocol.get(url.protocol) != Protocol.QUIC) {
-//            return chain.proceed(req)
-//        }
-        Log.d(TAG, "protocol:${url.protocol}")
 
         // covert okhttp request to cornet request
         val connection = QUICDroid.engine.openConnection(url) as HttpURLConnection
