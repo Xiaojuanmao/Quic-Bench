@@ -2,6 +2,12 @@
 
 QUIC为Google于2013年开发的基于UDP的多路并发传输协议，主要优势在于减少TCP三次握手及TLS握手，同时因为UDP特性在高丢包环境下依旧能正常工作。在使用情景复杂的移动网络环境下能有效降低延时以及提高请求成功率。（https://www.chromium.org/quic）
 
+## Advantages
+
+1. 减少握手次数，TCP本身需要三次握手，TLS1.1需要3次，TLS1.2，需要1-2次，TLS1.3才能达到0RTT，而QUIC协议层只需要1-2 RTT，而再次连接为0RTT；
+2. 网络抖动时，TCP会产生阻塞，同时无法多路复用，而QUIC流与流之间是独立的，丢包后不会互相影响；
+3. TCP协议需要设备支持，比如当前主流移动设备均不支持TLS1.3，老设备甚至不支持TLS1.2，QUIC可以单独不是，升级及兼容更方便。
+
 ## Bench
 
 此处选择Android作为测试平台，对同时提供QUIC和HTTP2.0支持的腾讯云CDN图片进行下载测试。
@@ -27,8 +33,18 @@ QUIC为Google于2013年开发的基于UDP的多路并发传输协议，主要优
         "https://stgwhttp2.kof.qq.com/08.jpg"
 ```
 
-**Client：Android**
+**Platform：Android**
 Android平台上，我们使用从`Chromium`中抽取的[cornet](https://chromium.googlesource.com/chromium/src/+/master/components/cronet?autodive=0%2F%2F)作为QUIC Client，对比`OKHttp`作为Http2.0 Client。为了避免OKHttp本身优化的问题，我们为QUIC提供了hook OKHttp用的`Interceptor`，此数数据均为QUIC over OKHttp的测试结果。直接使用cornet engine的测试结果大家可以自行运行。
+
+**测试环境：**
+
+```
+Phone： 小米MIX2
+OS： Android 8.0 (MIUI9)
+Server: caddy 0.9.4  
+```
+
+
 
 ### 网络请求测试
 
@@ -37,16 +53,30 @@ Android平台上，我们使用从`Chromium`中抽取的[cornet](https://chromiu
 (以下数据图标，x轴为丢包率，y轴为16张图下载总耗时，单位ms，数值越小越好)
 source: https://docs.google.com/spreadsheets/d/12YcL4e60fvDVliTEzew-c2bbRahBUEaB5HZHQDsPHH4/edit?usp=sharing
 
-1. BatWifi-Guest (Download 5.7Mbps; Upload 2.8Mbps; Ping 466ms (delay 200ms))   
+1. BatWifi-Guest （公共Wifi）
+
+   此为高延时的网络情况
+
+    (Download 5.7Mbps; Upload 2.8Mbps; Ping 466ms (delay 200ms))   
    ![Wifi](./doc/bench_wifi_guest.png)
 
-   2. Dtac@地铁 (Download 2.3Mbps; Upload 4.7Mbps; Ping 68ms)
+   ​
 
-      ![DTAC](./doc/bench_4g_dtac.png)
+2. Dtac@地铁 
 
-   3. True@地铁 (Download 6.3Mbps; Upload 9.7Mbps; Ping 123ms）
+   较为正常的4G网络
 
-      ![True](./doc/bench_4g_true.png)
+   (Download 2.3Mbps; Upload 4.7Mbps; Ping 68ms)
+
+   ![DTAC](./doc/bench_4g_dtac.png)
+
+3. True@地铁 
+
+   延时稍高的4G网络
+
+   (Download 6.3Mbps; Upload 9.7Mbps; Ping 123ms）
+
+   ![True](./doc/bench_4g_true.png)
 
 当丢包率达到20%以后，HTTP2.0基本处于超时状态，无法完成测试。
 
@@ -106,3 +136,11 @@ other cronet config see https://chromium.googlesource.com/chromium/src/+/master/
 ### Warning
 
 因为无法从协议层去判断Server是否支持QUIC，需要Client预先使用其他手段判断Server对协议的支持再作启用。
+
+
+
+## Other
+
+QUIC@微博 https://itw01.com/V2WI5ES.html
+QUIC@腾讯 https://zhuanlan.zhihu.com/p/32560981
+QUIC@QZone http://www.infoq.com/cn/news/2017/10/qzone-quic-practise
