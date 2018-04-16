@@ -109,7 +109,7 @@ source: https://docs.google.com/spreadsheets/d/12YcL4e60fvDVliTEzew-c2bbRahBUEaB
 
 对于Client（Android），因为需要单独打包协议so，对包体积影响较大，未压缩情况下会带来2M左右负担。调研了携程等公司的做法，可以采取动态下发，lazy load的形式。在合适的时机下载dex和so进行加载，避免对包体积的影响。
 
-在proguard下，集成cronet会增加2300个方法，230k dex（未压缩），so download size 1.5M，可动态加载。
+在proguard下，集成cronet会增加1400个方法，160k dex（未压缩），so download size 1.5M，可动态加载。
 
 ## QUICDroid
 
